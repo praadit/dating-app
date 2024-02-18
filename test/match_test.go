@@ -96,6 +96,46 @@ func TestExplore(t *testing.T) {
 
 	assert.True(t, utils.Contains(availFemaleId, selUser.Id))
 }
+func TestExplore_NoSwipedUserInSameDay(t *testing.T) {
+	ctx := context.Background()
+
+	newMale := generateMaleUser()
+	BunDB.NewInsert().Model(newMale).Exec(ctx)
+	assert.NotEqual(t, 0, newMale)
+	defer func() {
+		BunDB.NewDelete().Model(newMale).WherePK().Exec(ctx)
+	}()
+
+	availFemaleId, mapAvailFemale := generateListOfUsers(2, "f")
+	defer func() {
+		BunDB.NewDelete().Model((*models.User)(nil)).Where("id in (?)", bun.In(availFemaleId)).Exec(ctx)
+	}()
+
+	match := &models.Match{
+		UserId:      newMale.Id,
+		UserMatchID: availFemaleId[0],
+		Liked:       false,
+	}
+	BunDB.NewInsert().Model(match).Exec(ctx)
+	assert.NotEqual(t, 0, newMale)
+	defer func() {
+		BunDB.NewDelete().Model(match).WherePK().Exec(ctx)
+	}()
+
+	selUser, err := Service.Explore(ctx, newMale)
+	assert.Nil(t, err)
+	assert.NotEqual(t, newMale.Id, selUser.Id)
+
+	// check female data
+	assert.Equal(t, mapAvailFemale[availFemaleId[1]].Id, selUser.Id)
+	assert.Equal(t, mapAvailFemale[availFemaleId[1]].Name, selUser.Name)
+	assert.Equal(t, mapAvailFemale[availFemaleId[1]].Email, selUser.Email)
+	assert.Equal(t, mapAvailFemale[availFemaleId[1]].Gender, selUser.Gender)
+	assert.Equal(t, mapAvailFemale[availFemaleId[1]].Picture, selUser.Picture)
+	assert.Equal(t, mapAvailFemale[availFemaleId[1]].Active, selUser.Active)
+
+	assert.True(t, utils.Contains(availFemaleId, selUser.Id))
+}
 func TestExplore_NoProfile(t *testing.T) {
 	ctx := context.Background()
 
@@ -207,6 +247,7 @@ func TestSwipe_OnceADay(t *testing.T) {
 		Liked:       false,
 	}
 	BunDB.NewInsert().Model(match).Exec(ctx)
+	assert.NotEqual(t, 0, newMale)
 	defer func() {
 		BunDB.NewDelete().Model(match).WherePK().Exec(ctx)
 	}()
@@ -241,6 +282,7 @@ func TestSwipe_SwipeLimit(t *testing.T) {
 		Liked:       false,
 	}
 	BunDB.NewInsert().Model(match).Exec(ctx)
+	assert.NotEqual(t, 0, match)
 	defer func() {
 		BunDB.NewDelete().Model(match).WherePK().Exec(ctx)
 	}()
@@ -276,6 +318,7 @@ func TestSwipe_SwipeLimit_Premium(t *testing.T) {
 		Liked:       false,
 	}
 	BunDB.NewInsert().Model(match).Exec(ctx)
+	assert.NotEqual(t, 0, newMale)
 	defer func() {
 		BunDB.NewDelete().Model(match).WherePK().Exec(ctx)
 	}()
