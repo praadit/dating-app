@@ -1,4 +1,4 @@
-package services
+package service
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/patrickmn/go-cache"
-	"github.com/praadit/dating-apps/constants"
+	"github.com/praadit/dating-apps/constant"
 	"github.com/praadit/dating-apps/models"
 	modelhelper "github.com/praadit/dating-apps/models/model_helper"
 	"github.com/praadit/dating-apps/requests"
@@ -28,8 +28,8 @@ func (s *Service) Packages(ctx context.Context, pagination *requests.Pagination)
 	}
 
 	if pagination.Order != "" {
-		if pagination.Order != constants.OrderAsc && pagination.Order != constants.OrderDesc {
-			pagination.Order = constants.OrderAsc
+		if pagination.Order != constant.OrderAsc && pagination.Order != constant.OrderDesc {
+			pagination.Order = constant.OrderAsc
 		}
 	}
 	query = query.Order(fmt.Sprintf("name %s", pagination.Order)).Offset(pagination.PerPage * (pagination.Page - 1)).Limit(pagination.PerPage)
@@ -109,7 +109,7 @@ func (s *Service) Buy(ctx context.Context, user *models.User, req *requests.BuyP
 		return utils.FilterError(err, "Package has invalid benefits")
 	}
 
-	if pack.Type == constants.PackageTypeOnetime {
+	if pack.Type == constant.PackageTypeOnetime {
 		if _, err := s.UserPacakge(ctx, user.Id, pack.Id); err == nil {
 			return errors.New("Cannot buy the badge package twice")
 		}
@@ -117,7 +117,7 @@ func (s *Service) Buy(ctx context.Context, user *models.User, req *requests.BuyP
 		for _, key := range packBenKey {
 			userBens[key] = pack.Benefits[key]
 		}
-	} else if pack.Type == constants.PackageTypeAddOn {
+	} else if pack.Type == constant.PackageTypeAddOn {
 		for _, key := range packBenKey {
 			if val, ok := userBens[key]; ok {
 				userBens[key] = int(val.(float64) + pack.Benefits[key].(float64))

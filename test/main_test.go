@@ -10,18 +10,18 @@ import (
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"github.com/patrickmn/go-cache"
-	"github.com/praadit/dating-apps/services"
+	"github.com/praadit/dating-apps/service"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
 )
 
-var Service *services.Service
+var Service *service.Service
 var BunDB *bun.DB
 
 func TestMain(m *testing.M) {
 	BunDB = testDbSetup()
 	memCache := cache.New(1*time.Minute, 10*time.Minute)
-	Service = services.NewService(BunDB, memCache)
+	Service = service.NewService(BunDB, memCache)
 
 	os.Exit(m.Run())
 }

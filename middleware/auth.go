@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/praadit/dating-apps/constants"
+	"github.com/praadit/dating-apps/constant"
 	"github.com/praadit/dating-apps/utils"
 )
 
@@ -29,7 +29,7 @@ func AuthenticatedOnly(c *gin.Context) {
 		return
 	}
 
-	ctx := context.WithValue(c, constants.CTX_CLAIM, claim)
+	ctx := context.WithValue(c, constant.CTX_CLAIM, claim)
 	c.Request = c.Request.WithContext(ctx)
 
 	c.Next()

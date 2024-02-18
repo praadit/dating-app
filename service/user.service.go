@@ -1,4 +1,4 @@
-package services
+package service
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 
 	"github.com/golang-jwt/jwt"
 	"github.com/patrickmn/go-cache"
-	"github.com/praadit/dating-apps/constants"
+	"github.com/praadit/dating-apps/constant"
 	"github.com/praadit/dating-apps/models"
 	"github.com/praadit/dating-apps/requests"
 	"github.com/praadit/dating-apps/response"
@@ -17,7 +17,7 @@ import (
 )
 
 func (s *Service) AuthUser(ctx context.Context) (*models.User, error) {
-	claim := ctx.Value(constants.CTX_CLAIM)
+	claim := ctx.Value(constant.CTX_CLAIM)
 	if claim == nil {
 		return nil, utils.ERR_INVALID_TOKEN()
 	}
@@ -95,7 +95,7 @@ func (s *Service) SignupUser(ctx context.Context, req *requests.SignupRequest) e
 		return utils.ERR_UNKNOWN(err)
 	}
 
-	if req.Gender != constants.GenderMale && req.Gender != constants.GenderFemale {
+	if req.Gender != constant.GenderMale && req.Gender != constant.GenderFemale {
 		return errors.New("Gender invalid. Please use 'm' for male and 'f' for female")
 	}
 

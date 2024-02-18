@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/brianvoe/gofakeit"
-	"github.com/praadit/dating-apps/constants"
+	"github.com/praadit/dating-apps/constant"
 	"github.com/praadit/dating-apps/models"
 	"github.com/praadit/dating-apps/requests"
 	"github.com/stretchr/testify/assert"
@@ -18,7 +18,7 @@ func generatePackage() *models.Package {
 		Terms:       gofakeit.Word(),
 		Description: gofakeit.Word(),
 		ActiveDays:  0,
-		Type:        constants.PackageTypeOnetime,
+		Type:        constant.PackageTypeOnetime,
 		Price:       1000,
 		Benefits: map[string]interface{}{
 			"is_premium": true,

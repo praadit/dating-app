@@ -1,4 +1,4 @@
-package constants
+package constant
 
 const CTX_CLAIM string = "ctx_claims"
 const CTX_USER string = "ctx_user"

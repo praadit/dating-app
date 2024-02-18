@@ -10,7 +10,7 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/patrickmn/go-cache"
 	"github.com/praadit/dating-apps/config"
-	"github.com/praadit/dating-apps/controllers"
+	"github.com/praadit/dating-apps/controller"
 	"github.com/praadit/dating-apps/middleware"
 )
 
@@ -21,7 +21,7 @@ func main() {
 	memCache := cache.New(1*time.Minute, 10*time.Minute)
 	validate := validator.New()
 
-	controller := controllers.NewController(bunDB, memCache, validate)
+	controller := controller.NewController(bunDB, memCache, validate)
 
 	corsConf := CorsSetup()
 
@@ -46,7 +46,7 @@ func CorsSetup() cors.Config {
 	return corsConf
 }
 
-func RouteSetup(r *gin.Engine, controller *controllers.Controller) {
+func RouteSetup(r *gin.Engine, controller *controller.Controller) {
 	r.GET("/health", func(ctx *gin.Context) {
 		ctx.JSON(200, map[string]string{
 			"status": "healthy",
