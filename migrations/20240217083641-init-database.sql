@@ -9,7 +9,7 @@ CREATE TABLE public.users
     name text NOT NULL,
     gender varchar(1) NOT NULL,
     picture text,
-    benefits jsonb not null default '{"base_swipe": 10}',
+    benefits json not null default '{"base_swipe": 10}',
     created_at timestamp with time zone NOT NULL DEFAULT now(),
     updated_at timestamp with time zone NOT NULL DEFAULT now(),
     CONSTRAINT users_pkey PRIMARY KEY (id)
@@ -22,7 +22,7 @@ CREATE TABLE public.packages
     active_days int,
     terms text,
     description text,
-    benefits jsonb not null,
+    benefits json not null,
     price numeric not null,
     type varchar(10) not null,
     created_at timestamp with time zone NOT NULL DEFAULT now(),
