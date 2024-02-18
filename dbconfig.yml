@@ -1,0 +1,5 @@
+development:
+    dialect: postgres
+    datasource: postgres://postgres:password@127.0.0.1:5432/dealls-dating-app?sslmode=disable
+    dir: migrations
+    table: migrations
