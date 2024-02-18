@@ -38,9 +38,16 @@ if you want to use default config, you have to name the database `dealls-dating-
  ```
  DB_CONN="postgres://{{your_postgres_user}}:{{your_postgres_password}}@{{postgres_host}}:{{postgres_port}}/{{db_name}}?sslmode=disable"
  ```
-5. run `make server` on terminal to run server for the first time and apply database migration
-6. run `make t` to test all available testcase
-7. run `make tv` to test with verbose log, it will return log below
+5. if you already installed `make` on your local
+   - run `make server` on terminal to run server for the first time and apply database migration
+   - run `make t` to test all available testcase
+   - run `make tv` to test with verbose log
+6. if not, do manual run using go cli, go to project root directory 
+   - run `go run main.go` to run server
+   - change directory to test dir by running `cd test` command. And `go test . -count=1` to run all test
+   - append `-v` to the end of test command. so it would look like `go test . -count=1 -v` to run test with verbose log
+  
+7. the test result with verbose
   ```
   go test ./test/ -count=1 -v
   === RUN   TestExplore
