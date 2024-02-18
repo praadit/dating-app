@@ -109,7 +109,7 @@ func (s *Service) Buy(ctx context.Context, user *models.User, req *requests.BuyP
 		return utils.FilterError(err, "Package has invalid benefits")
 	}
 
-	if pack.Type == constants.PackageTypeBadge {
+	if pack.Type == constants.PackageTypeOnetime {
 		if _, err := s.UserPacakge(ctx, user.Id, pack.Id); err == nil {
 			return errors.New("Cannot buy the badge package twice")
 		}

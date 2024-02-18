@@ -1,4 +1,4 @@
 package constants
 
-const PackageTypeBadge string = "Badge"
+const PackageTypeOnetime string = "OneTime"
 const PackageTypeAddOn string = "AddOn"

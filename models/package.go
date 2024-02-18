@@ -27,7 +27,7 @@ func (en *Package) ToResponse() PackageResponse {
 		Id:          en.Id,
 		Active:      en.Active,
 		Name:        en.Name,
-		Term:        en.Terms,
+		Terms:       en.Terms,
 		Description: en.Description,
 		CreatedAt:   en.CreatedAt,
 		UpdatedAt:   en.UpdatedAt,
@@ -38,7 +38,7 @@ type PackageResponse struct {
 	Id          int       `json:"id"`
 	Active      bool      `json:"active"`
 	Name        string    `json:"name"`
-	Term        string    `json:"terms"`
+	Terms       string    `json:"terms"`
 	Description string    `json:"description"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`

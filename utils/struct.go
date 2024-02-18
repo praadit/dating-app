@@ -31,3 +31,11 @@ func GetMapKeys[T comparable](maps map[T]interface{}) (slice []T) {
 	}
 	return
 }
+func Contains[T comparable](slices []T, search T) bool {
+	for _, key := range slices {
+		if key == search {
+			return true
+		}
+	}
+	return false
+}

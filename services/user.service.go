@@ -81,22 +81,22 @@ func (s *Service) Login(ctx context.Context, req *requests.LoginRequest) (*respo
 	}, nil
 }
 
-func (s *Service) SignupUser(ctx context.Context, req *requests.SignupRequest) (*response.BaseResponse, error) {
-	if exist, err := s.db.NewSelect().Model((*models.User)(nil)).Where("email = ?", req.Email).Where("active = true").Exists(ctx); err != nil {
-		return nil, utils.FilterError(err, "Fail to validate email user")
+func (s *Service) SignupUser(ctx context.Context, req *requests.SignupRequest) error {
+	if exist, err := s.db.NewSelect().Model((*models.User)(nil)).Where("email = ?", req.Email).Exists(ctx); err != nil {
+		return utils.FilterError(err, "Fail to validate email user")
 	} else {
 		if exist {
-			return nil, errors.New("Email already registered")
+			return errors.New("Email already registered")
 		}
 	}
 
 	hashed, err := utils.HashPassword(req.Password)
 	if err != nil {
-		return nil, utils.ERR_UNKNOWN(err)
+		return utils.ERR_UNKNOWN(err)
 	}
 
 	if req.Gender != constants.GenderMale && req.Gender != constants.GenderFemale {
-		return nil, errors.New("Gender invalid. Please use 'm' for male and 'f' for female")
+		return errors.New("Gender invalid. Please use 'm' for male and 'f' for female")
 	}
 
 	newUser := &models.User{
@@ -118,9 +118,7 @@ func (s *Service) SignupUser(ctx context.Context, req *requests.SignupRequest) (
 		return nil
 	})
 	if errTx != nil {
-		return nil, utils.FilterError(errTx, "Failed to register user")
+		return utils.FilterError(errTx, "Failed to register user")
 	}
-	return &response.BaseResponse{
-		Status: true,
-	}, nil
+	return nil
 }

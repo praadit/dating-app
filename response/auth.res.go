@@ -9,9 +9,15 @@ type LoginResponse struct {
 }
 
 type BaseResponse struct {
-	Status bool `json:"status"`
+	Status bool        `json:"status"`
+	Error  *string     `json:"error"`
+	Data   interface{} `json:"data"`
 }
 
-type ErrorResponse struct {
-	Error string `json:"error"`
+func FormatRequest(data interface{}, err *string) BaseResponse {
+	return BaseResponse{
+		Status: err == nil,
+		Error:  err,
+		Data:   data,
+	}
 }

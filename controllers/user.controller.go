@@ -13,16 +13,14 @@ import (
 func (c *Controller) Login(ctx *gin.Context) {
 	req := &requests.LoginRequest{}
 	if err := ctx.Bind(req); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.ErrorResponse{
-			Error: utils.FilterError(err, "Failed to parse request body").Error(),
-		})
+		errMessage := utils.FilterError(err, "Failed to parse request body").Error()
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.FormatRequest(nil, &errMessage))
 		return
 	}
 
 	if err := utils.ValidateStruct(c.validate, req); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.ErrorResponse{
-			Error: err.Error(),
-		})
+		errMessage := err.Error()
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.FormatRequest(nil, &errMessage))
 		return
 	}
 
@@ -30,51 +28,45 @@ func (c *Controller) Login(ctx *gin.Context) {
 
 	res, err := c.service.Login(ctx.Request.Context(), req)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.ErrorResponse{
-			Error: err.Error(),
-		})
+		errMessage := err.Error()
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.FormatRequest(nil, &errMessage))
 		return
 	}
 
-	ctx.JSON(http.StatusOK, res)
+	ctx.JSON(http.StatusOK, response.FormatRequest(res, nil))
 }
 
 func (c *Controller) Signup(ctx *gin.Context) {
 	req := &requests.SignupRequest{}
 	if err := ctx.Bind(req); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.ErrorResponse{
-			Error: utils.FilterError(err, "Failed to parse request body").Error(),
-		})
+		errMessage := utils.FilterError(err, "Failed to parse request body").Error()
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.FormatRequest(nil, &errMessage))
 		return
 	}
 
 	if err := utils.ValidateStruct(c.validate, req); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.ErrorResponse{
-			Error: err.Error(),
-		})
+		errMessage := err.Error()
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.FormatRequest(nil, &errMessage))
 		return
 	}
 
 	if req.Password != req.ConfirmPassword {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.ErrorResponse{
-			Error: "Password and confirm password should be same",
-		})
+		errMessage := "Password and confirm password should be same"
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.FormatRequest(nil, &errMessage))
 	}
 	if len(req.Picture) > 1000 {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.ErrorResponse{
-			Error: "Picture lenght should be less than 1000 characters",
-		})
+		errMessage := "Picture lenght should be less than 1000 characters"
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.FormatRequest(nil, &errMessage))
 	}
 
 	req.Email = strings.ToLower(req.Email)
 
-	res, err := c.service.SignupUser(ctx.Request.Context(), req)
+	err := c.service.SignupUser(ctx.Request.Context(), req)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.ErrorResponse{
-			Error: err.Error(),
-		})
+		errMessage := err.Error()
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.FormatRequest(nil, &errMessage))
 		return
 	}
 
-	ctx.JSON(http.StatusOK, res)
+	ctx.JSON(http.StatusOK, response.FormatRequest(nil, nil))
 }

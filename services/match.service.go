@@ -18,12 +18,6 @@ func (s *Service) Explore(ctx context.Context, user *models.User) (*models.User,
 		return nil, err
 	}
 
-	if !user.Benefits.IsPremium {
-		if len(history) > user.Benefits.BaseSwipe {
-			return nil, errors.New("You've reached swipe limit")
-		}
-	}
-
 	swipedId := []int{}
 	for _, his := range history {
 		swipedId = append(swipedId, his.UserMatchID)
@@ -53,6 +47,14 @@ func (s *Service) Explore(ctx context.Context, user *models.User) (*models.User,
 func (s *Service) Swipe(ctx context.Context, user *models.User, req *requests.SwipeRequest) error {
 	if user.Id == req.UserId {
 		return errors.New("You cannot swipe your self")
+	}
+
+	swipedUser, err := s.getUserById(ctx, req.UserId)
+	if err != nil {
+		return err
+	}
+	if !swipedUser.Active {
+		return errors.New("User inactive")
 	}
 
 	if exist, err := s.db.NewSelect().Model((*models.Match)(nil)).Where("user_id = ? and user_match_id = ? and date(created_at) = current_date", user.Id, req.UserId).Exists(ctx); err != nil {
