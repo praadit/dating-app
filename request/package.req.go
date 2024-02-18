@@ -1,4 +1,4 @@
-package requests
+package request
 
 type Pagination struct {
 	Page    int    `form:"page"`

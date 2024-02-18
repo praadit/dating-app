@@ -7,7 +7,7 @@ import (
 	"github.com/brianvoe/gofakeit"
 	"github.com/praadit/dating-apps/constant"
 	"github.com/praadit/dating-apps/models"
-	"github.com/praadit/dating-apps/requests"
+	"github.com/praadit/dating-apps/request"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -57,7 +57,7 @@ func TestGetPackagesList(t *testing.T) {
 
 	assert.NotEqual(t, 0, newPack.Id)
 
-	pack, err := Service.Packages(ctx, &requests.Pagination{
+	pack, err := Service.Packages(ctx, &request.Pagination{
 		Page:    1,
 		PerPage: 10,
 		Order:   "asc",
@@ -82,7 +82,7 @@ func TestBuyPackage(t *testing.T) {
 	testProfile := generateMaleUser()
 
 	// register user
-	err := Service.SignupUser(ctx, &requests.SignupRequest{
+	err := Service.SignupUser(ctx, &request.SignupRequest{
 		Name:            testProfile.Name,
 		Email:           testProfile.Email,
 		Password:        testProfile.Password,
@@ -107,7 +107,7 @@ func TestBuyPackage(t *testing.T) {
 	assert.NotEqual(t, 0, newPack.Id)
 
 	// buy package testcase
-	err = Service.Buy(ctx, newUser, &requests.BuyPackage{
+	err = Service.Buy(ctx, newUser, &request.BuyPackage{
 		PackageID: newPack.Id,
 	})
 	assert.Nil(t, err)

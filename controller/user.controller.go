@@ -5,13 +5,13 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/praadit/dating-apps/requests"
+	"github.com/praadit/dating-apps/request"
 	"github.com/praadit/dating-apps/response"
 	"github.com/praadit/dating-apps/utils"
 )
 
 func (c *Controller) Login(ctx *gin.Context) {
-	req := &requests.LoginRequest{}
+	req := &request.LoginRequest{}
 	if err := ctx.Bind(req); err != nil {
 		errMessage := utils.FilterError(err, "Failed to parse request body").Error()
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.FormatRequest(nil, &errMessage))
@@ -37,7 +37,7 @@ func (c *Controller) Login(ctx *gin.Context) {
 }
 
 func (c *Controller) Signup(ctx *gin.Context) {
-	req := &requests.SignupRequest{}
+	req := &request.SignupRequest{}
 	if err := ctx.Bind(req); err != nil {
 		errMessage := utils.FilterError(err, "Failed to parse request body").Error()
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.FormatRequest(nil, &errMessage))

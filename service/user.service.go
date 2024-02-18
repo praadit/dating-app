@@ -10,7 +10,7 @@ import (
 	"github.com/patrickmn/go-cache"
 	"github.com/praadit/dating-apps/constant"
 	"github.com/praadit/dating-apps/models"
-	"github.com/praadit/dating-apps/requests"
+	"github.com/praadit/dating-apps/request"
 	"github.com/praadit/dating-apps/response"
 	"github.com/praadit/dating-apps/utils"
 	"github.com/uptrace/bun"
@@ -59,7 +59,7 @@ func (s *Service) getUserById(ctx context.Context, id int) (*models.User, error)
 	return user, nil
 }
 
-func (s *Service) Login(ctx context.Context, req *requests.LoginRequest) (*response.LoginResponse, error) {
+func (s *Service) Login(ctx context.Context, req *request.LoginRequest) (*response.LoginResponse, error) {
 	user := &models.User{}
 	query := s.db.NewSelect().Model(user).Where("email = ?", req.Email)
 	if _, err := utils.SqlPanicFilter(query.Scan(ctx), "Failed to get user", "Email not found"); err != nil {
@@ -81,7 +81,7 @@ func (s *Service) Login(ctx context.Context, req *requests.LoginRequest) (*respo
 	}, nil
 }
 
-func (s *Service) SignupUser(ctx context.Context, req *requests.SignupRequest) error {
+func (s *Service) SignupUser(ctx context.Context, req *request.SignupRequest) error {
 	if exist, err := s.db.NewSelect().Model((*models.User)(nil)).Where("email = ?", req.Email).Exists(ctx); err != nil {
 		return utils.FilterError(err, "Fail to validate email user")
 	} else {

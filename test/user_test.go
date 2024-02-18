@@ -5,14 +5,14 @@ import (
 	"testing"
 
 	"github.com/praadit/dating-apps/models"
-	"github.com/praadit/dating-apps/requests"
+	"github.com/praadit/dating-apps/request"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestLoginAndRegister(t *testing.T) {
 	ctx := context.Background()
 	testProfile := generateMaleUser()
-	err := Service.SignupUser(ctx, &requests.SignupRequest{
+	err := Service.SignupUser(ctx, &request.SignupRequest{
 		Name:            testProfile.Name,
 		Email:           testProfile.Email,
 		Password:        testProfile.Password,
@@ -36,7 +36,7 @@ func TestLoginAndRegister(t *testing.T) {
 	assert.Equal(t, testProfile.Gender, newUser.Gender)
 	assert.Equal(t, testProfile.Picture, newUser.Picture)
 
-	loginResponse, err := Service.Login(ctx, &requests.LoginRequest{
+	loginResponse, err := Service.Login(ctx, &request.LoginRequest{
 		Email:    testProfile.Email,
 		Password: testProfile.Password,
 	})
@@ -63,7 +63,7 @@ func TestRegister_DuplicateEmail(t *testing.T) {
 		BunDB.NewDelete().Model(user).WherePK().Exec(ctx)
 	}()
 
-	err := Service.SignupUser(ctx, &requests.SignupRequest{
+	err := Service.SignupUser(ctx, &request.SignupRequest{
 		Name:            testProfile.Name,
 		Email:           testProfile.Email,
 		Password:        testProfile.Password,
@@ -79,7 +79,7 @@ func TestRegister_DuplicateEmail(t *testing.T) {
 func TestLogin_WrongPassword(t *testing.T) {
 	ctx := context.Background()
 	testProfile := generateMaleUser()
-	err := Service.SignupUser(ctx, &requests.SignupRequest{
+	err := Service.SignupUser(ctx, &request.SignupRequest{
 		Name:            testProfile.Name,
 		Email:           testProfile.Email,
 		Password:        testProfile.Password,
@@ -103,7 +103,7 @@ func TestLogin_WrongPassword(t *testing.T) {
 	assert.Equal(t, testProfile.Gender, newUser.Gender)
 	assert.Equal(t, testProfile.Picture, newUser.Picture)
 
-	loginResponse, err := Service.Login(ctx, &requests.LoginRequest{
+	loginResponse, err := Service.Login(ctx, &request.LoginRequest{
 		Email:    testProfile.Email,
 		Password: "wrongPassword",
 	})
@@ -116,7 +116,7 @@ func TestLogin_WrongPassword(t *testing.T) {
 func TestLogin_WrongEmail(t *testing.T) {
 	ctx := context.Background()
 	testProfile := generateMaleUser()
-	err := Service.SignupUser(ctx, &requests.SignupRequest{
+	err := Service.SignupUser(ctx, &request.SignupRequest{
 		Name:            testProfile.Name,
 		Email:           testProfile.Email,
 		Password:        testProfile.Password,
@@ -140,7 +140,7 @@ func TestLogin_WrongEmail(t *testing.T) {
 	assert.Equal(t, testProfile.Gender, newUser.Gender)
 	assert.Equal(t, testProfile.Picture, newUser.Picture)
 
-	loginResponse, err := Service.Login(ctx, &requests.LoginRequest{
+	loginResponse, err := Service.Login(ctx, &request.LoginRequest{
 		Email:    "wrongEmail@mail.com",
 		Password: testProfile.Password,
 	})

@@ -8,7 +8,7 @@ import (
 
 	"github.com/brianvoe/gofakeit"
 	"github.com/praadit/dating-apps/models"
-	"github.com/praadit/dating-apps/requests"
+	"github.com/praadit/dating-apps/request"
 	"github.com/praadit/dating-apps/utils"
 	"github.com/stretchr/testify/assert"
 	"github.com/uptrace/bun"
@@ -128,7 +128,7 @@ func TestSwipe(t *testing.T) {
 	}()
 
 	liked := false
-	err := Service.Swipe(ctx, newMale, &requests.SwipeRequest{
+	err := Service.Swipe(ctx, newMale, &request.SwipeRequest{
 		UserId: availFemaleId[0],
 		Liked:  &liked,
 	})
@@ -153,7 +153,7 @@ func TestSwipe_SwipeMySelf(t *testing.T) {
 	}()
 
 	liked := false
-	err := Service.Swipe(ctx, newMale, &requests.SwipeRequest{
+	err := Service.Swipe(ctx, newMale, &request.SwipeRequest{
 		UserId: newMale.Id,
 		Liked:  &liked,
 	})
@@ -179,7 +179,7 @@ func TestSwipe_InactiveUser(t *testing.T) {
 	}()
 
 	liked := false
-	err := Service.Swipe(ctx, newMale, &requests.SwipeRequest{
+	err := Service.Swipe(ctx, newMale, &request.SwipeRequest{
 		UserId: newFemale.Id,
 		Liked:  &liked,
 	})
@@ -212,7 +212,7 @@ func TestSwipe_OnceADay(t *testing.T) {
 	}()
 
 	liked := false
-	err := Service.Swipe(ctx, newMale, &requests.SwipeRequest{
+	err := Service.Swipe(ctx, newMale, &request.SwipeRequest{
 		UserId: availFemaleId[0],
 		Liked:  &liked,
 	})
@@ -246,7 +246,7 @@ func TestSwipe_SwipeLimit(t *testing.T) {
 	}()
 
 	liked := false
-	err := Service.Swipe(ctx, newMale, &requests.SwipeRequest{
+	err := Service.Swipe(ctx, newMale, &request.SwipeRequest{
 		UserId: availFemaleId[1],
 		Liked:  &liked,
 	})
@@ -281,7 +281,7 @@ func TestSwipe_SwipeLimit_Premium(t *testing.T) {
 	}()
 
 	liked := false
-	err := Service.Swipe(ctx, newMale, &requests.SwipeRequest{
+	err := Service.Swipe(ctx, newMale, &request.SwipeRequest{
 		UserId: availFemaleId[1],
 		Liked:  &liked,
 	})

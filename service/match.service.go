@@ -6,7 +6,7 @@ import (
 	"math/rand"
 
 	"github.com/praadit/dating-apps/models"
-	"github.com/praadit/dating-apps/requests"
+	"github.com/praadit/dating-apps/request"
 	"github.com/praadit/dating-apps/utils"
 	"github.com/uptrace/bun"
 )
@@ -41,7 +41,7 @@ func (s *Service) Explore(ctx context.Context, user *models.User) (*models.User,
 	}
 }
 
-func (s *Service) Swipe(ctx context.Context, user *models.User, req *requests.SwipeRequest) error {
+func (s *Service) Swipe(ctx context.Context, user *models.User, req *request.SwipeRequest) error {
 	if user.Id == req.UserId {
 		return errors.New("You cannot swipe your self")
 	}

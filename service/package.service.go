@@ -10,13 +10,13 @@ import (
 	"github.com/praadit/dating-apps/constant"
 	"github.com/praadit/dating-apps/models"
 	modelhelper "github.com/praadit/dating-apps/models/model_helper"
-	"github.com/praadit/dating-apps/requests"
+	"github.com/praadit/dating-apps/request"
 	"github.com/praadit/dating-apps/response"
 	"github.com/praadit/dating-apps/utils"
 	"github.com/uptrace/bun"
 )
 
-func (s *Service) Packages(ctx context.Context, pagination *requests.Pagination) (*response.PackagesResponse, error) {
+func (s *Service) Packages(ctx context.Context, pagination *request.Pagination) (*response.PackagesResponse, error) {
 	pacakges := []*models.Package{}
 	query := s.db.NewSelect().Model(&pacakges).Where("active = true")
 
@@ -84,7 +84,7 @@ func (s *Service) getPackageById(ctx context.Context, id int) (*models.Package, 
 	return pacakge, nil
 }
 
-func (s *Service) Buy(ctx context.Context, user *models.User, req *requests.BuyPackage) error {
+func (s *Service) Buy(ctx context.Context, user *models.User, req *request.BuyPackage) error {
 	pack, err := s.getPackageById(ctx, req.PackageID)
 	if err != nil {
 		return err

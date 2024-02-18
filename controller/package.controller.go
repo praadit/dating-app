@@ -5,13 +5,13 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/praadit/dating-apps/requests"
+	"github.com/praadit/dating-apps/request"
 	"github.com/praadit/dating-apps/response"
 	"github.com/praadit/dating-apps/utils"
 )
 
 func (c *Controller) Packages(ctx *gin.Context) {
-	req := &requests.Pagination{
+	req := &request.Pagination{
 		Page:    1,
 		PerPage: 10,
 		Order:   "asc",
@@ -63,7 +63,7 @@ func (c *Controller) Buy(ctx *gin.Context) {
 		return
 	}
 
-	req := &requests.BuyPackage{}
+	req := &request.BuyPackage{}
 	if err := ctx.Bind(req); err != nil {
 		errMessage := utils.FilterError(err, "Failed to parse request body").Error()
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, response.FormatRequest(nil, &errMessage))
