@@ -62,7 +62,7 @@ CREATE TABLE public.matches
         ON DELETE NO ACTION
 );
 
-INSERT INTO public.packages(id,active,name,active_days,terms,description, benefits, type, price) values (1,true,'Premium User',null,'Only can be bought once, if already exist, you not be able to buy again','Yooo! Enjoy your exclusive premium pass, you can swipe all you like. There is no limit to love people right?', '{"is_premium":true}', 'OneTime', 120000);
+INSERT INTO public.packages(active,name,active_days,terms,description, benefits, type, price) values (true,'Premium User',null,'Only can be bought once, if already exist, you not be able to buy again','Yooo! Enjoy your exclusive premium pass, you can swipe all you like. There is no limit to love people right?', '{"is_premium":true}', 'OneTime', 120000);
 
 -- +migrate Down
 DROP TABLE public.matches;

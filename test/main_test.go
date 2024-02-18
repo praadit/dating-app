@@ -1,7 +1,6 @@
 package test
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"testing"
@@ -42,7 +41,6 @@ func testDbSetup() *bun.DB {
 		log.Println("using system envi variable")
 	}
 
-	fmt.Println("DB CONN", dbConn)
 	sqlxDB, err := sqlx.Open("postgres", dbConn)
 	if err != nil {
 		log.Fatalf("Unable to connect to database: %v\n", err)

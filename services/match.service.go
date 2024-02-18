@@ -3,7 +3,6 @@ package services
 import (
 	"context"
 	"errors"
-	"fmt"
 	"math/rand"
 
 	"github.com/praadit/dating-apps/models"
@@ -35,11 +34,9 @@ func (s *Service) Explore(ctx context.Context, user *models.User) (*models.User,
 	if len(selectedUsers) < 1 {
 		return nil, errors.New("No profile can be shown")
 	} else if len(selectedUsers) == 1 {
-		fmt.Println(1)
 		return selectedUsers[0], nil
 	} else {
 		idx := rand.Intn(len(selectedUsers)-0) + 0
-		fmt.Println(idx)
 		return selectedUsers[idx], nil
 	}
 }
