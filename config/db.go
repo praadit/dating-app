@@ -34,7 +34,7 @@ func Migrate(db *sql.DB) {
 	migrations := &migrate.FileMigrationSource{
 		Dir: "migrations",
 	}
-	migrate.SetTable("../migrations")
+	migrate.SetTable("migrations")
 
 	n, err := migrate.Exec(db, "postgres", migrations, migrate.Up)
 	if err != nil {
